@@ -1,12 +1,22 @@
+import sqlite3
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# In-memory user database
-users = {
-    'user1': 'password1',
-    'user2': 'password2'
-}
+def check_credentials(username, password):
+    # Connect to SQLite database
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    # Check if the username and password match
+    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+    user = cursor.fetchone()
+
+    # Close the connection
+    conn.close()
+
+    # Return True if user is found, else False
+    return user is not None
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -14,7 +24,7 @@ def auth():
     username = data.get('username')
     password = data.get('password')
 
-    if users.get(username) == password:
+    if check_credentials(username, password):
         return jsonify({'status': 'success'}), 200
     else:
         return jsonify({'status': 'failure'}), 401

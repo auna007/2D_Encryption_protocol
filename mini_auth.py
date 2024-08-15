@@ -16,22 +16,22 @@ class CustomTopo(Topo):
         self.addLink(h3, s1)
 
 def authenticate_user():
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-
     auth_url = "http://localhost:5000/auth"  # Assuming the auth server is on the same machine
-    data = {
-        "username": username,
-        "password": password
-    }
+    while True:
+        username = input("Enter username: ")
+        password = input("Enter password: ")
 
-    response = requests.post(auth_url, json=data)
-    if response.status_code == 200:
-        print("Authentication successful!")
-        return True
-    else:
-        print("Authentication failed!")
-        return False
+        data = {
+            "username": username,
+            "password": password
+        }
+
+        response = requests.post(auth_url, json=data)
+        if response.status_code == 200:
+            print("Authentication successful!")
+            return True
+        else:
+            print("Authentication failed! Please try again.")
 
 def run():
     if authenticate_user():
