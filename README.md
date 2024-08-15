@@ -31,6 +31,11 @@ Install the OpenDayLight:
 ./bin/karaf
 ```
 
+Install the required features in the Karaf console:
+```bash
+feature:install odl-openflowplugin-all odl-restconf
+```
+
 If you encountered Java Issue, Follow the below steps to install the right version for the ODL
 ```bash
 sudo apt install openjdk-8-jdk
@@ -51,3 +56,33 @@ Apply the changes:
 ```bash
 source ~/.bashrc
 ```
+
+### 3. Install Python Packages
+Create a virtual environment (optional but recommended):
+
+```bash
+python3 -m venv mininet_env
+source mininet_env/bin/activate
+```
+
+Install Flask and Requests:
+```bash
+pip install flask requests
+```
+
+## Running the Project
+### 1. Start the Authentication Server
+Open a terminal and run:
+
+```bash
+python3 auth_server.py
+```
+The server will start and listen on http://0.0.0.0:5000.
+
+### 2. Run the Mininet Script
+Open another terminal and run:
+
+```bash
+sudo python3 mini_auth.py
+```
+You will be prompted for a username and password. The script will authenticate the user before setting up the Mininet topology.
