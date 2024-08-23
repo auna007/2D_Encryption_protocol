@@ -70,14 +70,21 @@ Install Flask, Requests, Mininet, Qrcode and Pyotp:
 pip install flask requests mininet qrcode pyotp
 ```
 
-### 4. Install Python Packages
-Create a virtual environment (optional but recommended):
-
+### 4. Seed Users
+Run the below command on terminal
 ```bash
-python3 -m venv mininet_env
-source mininet_env/bin/activate
+python3 create_db.py
 ```
+The above command will create 3 users in database and print each user along with his secret key on the terminal. each user will have the following:
+username, password and secret_key (secret_key will be used for totp).
 
+### 5. Setup Google Authenticator
+Run the below command on terminal to get Qrcode image that will be used in Google Authenticator
+```bash
+python3 generate_qrcode.py
+```
+You will be prompted to input email (any email can be used, even invalid), secret_key (copy one of the secret keys of the seeded users). The script will create a qrcode and save it in qrcode_image folder as image. The image file will be named using email provided.
+You can now go ahead and scan the image in Google Authenticator app.
 
 ## Running the Project
 ### 1. Start the Authentication Server
