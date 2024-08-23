@@ -20,13 +20,16 @@ def authenticate_user():
     while True:
         username = input("Enter username: ")
         password = input("Enter password: ")
+        totp_code = input("Enter TOTP code: ")
 
         data = {
             "username": username,
-            "password": password
+            "password": password,
+            "totp_code": totp_code
         }
 
         response = requests.post(auth_url, json=data)
+        print(response.content)
         if response.status_code == 200:
             print("Authentication successful!")
             return True

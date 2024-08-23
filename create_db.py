@@ -1,32 +1,31 @@
 import sqlite3
+import pyotp
 
-def create_database():
-    # Connect to SQLite database (or create it if it doesn't exist)
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
+# Connect to SQLite database
+conn = sqlite3.connect('users.db')
+cursor = conn.cursor()
 
-    # Create a table for storing users
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
-    )
-    ''')
+# Create users table with a column for TOTP secret
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    secret TEXT NOT NULL
+)
+''')
 
-    # Insert sample users
-    users = [
-        ('user1', 'password1'),
-        ('user2', 'password2'),
-        ('user3', 'password3')
-    ]
+# Add users with generated TOTP secrets
+users = [
+    ('user1', 'password1', pyotp.random_base32()),
+    ('user2', 'password2', pyotp.random_base32()),
+    ('user3', 'password3', pyotp.random_base32())
+]
 
-    cursor.executemany('INSERT INTO users (username, password) VALUES (?, ?)', users)
+cursor.executemany('INSERT INTO users (username, password, secret) VALUES (?, ?, ?)', users)
+conn.commit()
+conn.close()
 
-    # Commit changes and close the connection
-    conn.commit()
-    conn.close()
-    print("Database and table created, and sample users added.")
-
-if __name__ == '__main__':
-    create_database()
+# Print the TOTP secrets (for setting up Google Authenticator)
+for user in users:
+    print(f"User: {user[0]}, Secret: {user[2]}")

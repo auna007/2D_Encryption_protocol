@@ -65,10 +65,19 @@ python3 -m venv mininet_env
 source mininet_env/bin/activate
 ```
 
-Install Flask and Requests:
+Install Flask, Requests, Mininet, Qrcode and Pyotp:
 ```bash
-pip install flask requests
+pip install flask requests mininet qrcode pyotp
 ```
+
+### 4. Install Python Packages
+Create a virtual environment (optional but recommended):
+
+```bash
+python3 -m venv mininet_env
+source mininet_env/bin/activate
+```
+
 
 ## Running the Project
 ### 1. Start the Authentication Server
@@ -85,4 +94,4 @@ Open another terminal and run:
 ```bash
 sudo python3 mini_auth.py
 ```
-You will be prompted for a username and password. The script will authenticate the user before setting up the Mininet topology.
+You will be prompted for a username, password and totp. The script will authenticate the user before setting up the Mininet topology.
