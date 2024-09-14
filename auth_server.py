@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 def check_credentials(username, password):
+    #decrypt the username and password before comparing - 2D_Decryption_protocol (parameter)
+
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
@@ -23,10 +25,15 @@ def get_user_secret(username):
 @app.route('/auth', methods=['POST'])
 def auth():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    totp_code = data.get('totp_code')
+    username = data.get('username') #2D_ENCRYPTION_PROTOCOL (data.get('username'));
+    password = data.get('password') #2D_ENCRYPTION_PROTOCOL (data.get('password'));
+    totp_code = data.get('totp_code')   #2D_ENCRYPTION_PROTOCOL (data.get('totp_code'));
 
+
+#ALTERNATIVELY YOU CAN USE THIS
+#encrpted_data = 2D_ENCRYPTION_PROTOCOL(USERNAME, PASSWORD) - FUNCTION 
+#ucrpyt = encrpted_data['0];
+#pcrpyt = encrpted_data['1'];
 
     if check_credentials(username, password):
         # Fetch the TOTP secret for the user
