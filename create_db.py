@@ -22,7 +22,13 @@ users = [
     ('user3', 'password3', pyotp.random_base32())
 ]
 
-cursor.executemany('INSERT INTO users (username, password, secret) VALUES (?, ?, ?)', users)
+for user in users:
+    try:
+        cursor.execute('INSERT INTO users (username, password, secret) VALUES (?, ?, ?)', user)
+    except sqlite3.IntegrityError:
+        print(f"User {user[0]} already exists. Skipping.")
+
+# cursor.executemany('INSERT INTO users (username, password, secret) VALUES (?, ?, ?)', users)
 conn.commit()
 conn.close()
 

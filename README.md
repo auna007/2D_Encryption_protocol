@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-# 2D_Encryption_protocol
-DNA-Based Diffie-Hellman Encryption Protocol is a proposed encryption technique for securing data during communication in Software Defined Networking Environment
-=======
+# 2D_Encryption_protocol Read Me File
+DNA-Based Diffie-Hellman Encryption Protocol is a proposed encryption technique for securing data during communication in Software Defined Networking Environment.
+
 # Mininet Authentication Project
 
 This project sets up a Mininet network topology with user authentication using username and password before allowing network operations. The project uses the OpenDaylight (ODL) controller.
@@ -103,7 +102,6 @@ The server will start and listen on http://0.0.0.0:5000.
 Open another terminal and run:
 
 ```bash
-sudo python3 mini_auth.py
+python3 mini_auth.py OR use sudo
 ```
 You will be prompted for a username, password and totp. The script will authenticate the user before setting up the Mininet topology.
->>>>>>> 6ff4b541939f9faca989f001050060bf015f935a
