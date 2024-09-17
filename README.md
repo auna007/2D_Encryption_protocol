@@ -38,6 +38,9 @@ Install the required features in the Karaf console:
 ```bash
 feature:install odl-openflowplugin-all odl-restconf
 ```
+# feature:install odl-restconf odl-openflowplugin-all
+
+# feature:install odl-restconf odl-mdsal-apidocs - used 
 
 If you encountered Java Issue, Follow the below steps to install the right version for the ODL
 ```bash
@@ -49,7 +52,7 @@ Find and select the path to Java 8:
 sudo update-alternatives --config java
 ```
 
-Set the JAVA_HOME variable by adding the following lines to your .bashrc or .bash_profile file:
+Set the JAVA_HOME variable by adding the following lines to your .bashrc (at home) or .bash_profile file:
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
