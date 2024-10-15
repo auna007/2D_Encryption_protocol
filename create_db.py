@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
                
-asciis = [
+DNA_Dictionary = [
     (' ', 32, '00100000'),
     ('!', 33, '00100001'),
     ('"', 34, '00100010'),

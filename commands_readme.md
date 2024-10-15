@@ -2,3 +2,6 @@
 # command: ./bin/karaf
 # command: sudo python3 auth_server.py 
 # command: sudo python3 mini_auth.py 
+
+
+# To disable firewall: sudo ufw disable
