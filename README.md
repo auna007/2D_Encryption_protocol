@@ -42,6 +42,10 @@ feature:install odl-openflowplugin-all odl-restconf
 
 # feature:install odl-restconf odl-mdsal-apidocs - used 
 
+feature:install odl-dlux-core odl-dlux-node odl-dlux-yangui
+feature:install odl-l2switch-all
+
+
 If you encountered Java Issue, Follow the below steps to install the right version for the ODL
 ```bash
 sudo apt install openjdk-8-jdk
@@ -57,12 +61,15 @@ Set the JAVA_HOME variable by adding the following lines to your .bashrc (at hom
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 ```
+1.8.0_422
+
+sudo echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' >> ~ /.bashrc
 
 Apply the changes:
 ```bash
 source ~/.bashrc
 ```
-
+export $JAVA_HOME
 ### 3. Install Python Packages
 Create a virtual environment (optional but recommended):
 
@@ -108,3 +115,67 @@ Open another terminal and run:
 python3 mini_auth.py OR use sudo
 ```
 You will be prompted for a username, password and totp. The script will authenticate the user before setting up the Mininet topology.
+
+
+
+## COMMANDS
+sudo mn --controller remote --topo tree,2
+additional options (e.g., --controller=remote,ip=<controller_ip>,port=<controller_port>).
+
+
+
+////////////////////////////////////////////
+feature:install odl-dlux-all ALTERNATIVE SETUP
+
+This is what I have found. It looks like you and I were in the same boat. I ran into this issue, also. After additional searching, I found that ODL's website has a guide for the DLUX features.
+
+These are the features I installed and it got me where I needed:
+
+
+odl-dlux-core
+odl-dluxapps-nodes
+odl-dluxapps-topology
+odl-dluxapps-yangui
+odl-dluxapps-yangvisualizer
+odl-dluxapps-yangman
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+OpenFlow Plugin Installation
+OpenFlow Plugin installation follows standard OpenDaylight installation procedure described in install-odl.
+
+Next sections describe typical OpenFlow user and test features. For a complete list of available features check the OpenFlow Plugin Release Notes.
+
+Typical User features
+odl-openflowplugin-flow-services-rest: OF plugin with REST API.
+
+odl-openflowplugin-app-table-miss-enforcer: Adds default flow to controller.
+
+odl-openflowplugin-nxm-extensions: Nicira extensions for OVS.
+
+Typical Test features
+odl-openflowplugin-app-table-miss-enforcer: Adds default flow to controller.
+
+odl-openflowplugin-drop-test: Test application for pushing flows on packet-in.
+
+odl-openflowplugin-app-bulk-o-matic: Test application for pushing bulk flows.
+
+////////////////////////////////////////////////////////////////////////////////
+http://localhost:8181/index.html#/yangui/index
+
+http://10.3.160.106:8181/index.html#/topology
+
+sh ovs-vsctl show - show all connections
+
+sudo mn --controller remote,ip=<controller_ip>,port=<controller_port> --topo tree,2
+
+//////////////////////////////////////////////////////////////////////////////
+
+Working Command for the mininet execution
+sudo mn --controller=remote,ip=127.0.0.1,port=6653 --switch=ovsk,protocols=OpenFlow13 --topo=tree,2 --link=tc,bw=10
+
+
+http://:/index.html#/topology
+
+

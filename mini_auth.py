@@ -12,15 +12,20 @@ class CustomTopo(Topo):
         h2 = self.addHost('h2')
         h3 = self.addHost('h3')
         
-        # Define switch
-        s1 = self.addSwitch('s1')
-        s2 = self.addSwitch('s2')
-        s3 = self.addSwitch('s3')
+        # Define switches with OpenFlow13 protocol
+        s1 = self.addSwitch('s1', protocols='OpenFlow13')
+        s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        s3 = self.addSwitch('s3', protocols='OpenFlow13')
         
-        # Add links
-        self.addLink(h1, s1)
-        self.addLink(h2, s2)
-        self.addLink(h3, s3)
+        # Add links between hosts and switches
+        self.addLink(h1, s1)  # h1 connected to s1
+        self.addLink(h2, s2)  # h2 connected to s2
+        self.addLink(h3, s3)  # h3 connected to s3
+        
+        # Interconnect the switches to create a network path
+        self.addLink(s1, s2)  # s1 connected to s2
+        self.addLink(s2, s3)  # s2 connected to s3
+        self.addLink(s1, s3)  # Optionally, connect s1 directly to s3
 
 def authenticate_user(auth_url):
     """Authenticate user using a given authentication URL."""
@@ -53,17 +58,20 @@ def run():
     if authenticate_user(auth_url):
         # Create and start Mininet network
         topo = CustomTopo()
-        net = Mininet(topo=topo, controller=RemoteController, switch=OVSSwitch)
-        controller_ip = '127.0.0.1'
+        
+        # Set the controller IP and port for OpenDaylight
+        controller_ip = '10.3.160.106'
         controller_port = 6653
         
-        # Add the controller
-        net.addController('c0', ip=controller_ip, port=controller_port)
+        net = Mininet(topo=topo, controller=None, switch=OVSSwitch)
+        
+        # Add the OpenDaylight controller
+        odl_controller = net.addController('c0', controller=RemoteController, ip=controller_ip, port=controller_port)
 
         try:
             # Start the network
             net.start()
-            print(f"Connected to the controller at {controller_ip}:{controller_port}")
+            print(f"Connected to the OpenDaylight controller at {controller_ip}:{controller_port}")
             CLI(net)  # Launch Mininet CLI
         except Exception as e:
             # Handle and display errors related to network start or controller connection
